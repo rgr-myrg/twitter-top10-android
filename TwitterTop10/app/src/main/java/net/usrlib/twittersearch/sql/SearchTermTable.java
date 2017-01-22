@@ -1,22 +1,24 @@
 package net.usrlib.twittersearch.sql;
 
-import net.usrlib.twittersearch.model.SearchItem;
+import net.usrlib.twittersearch.model.SearchTermItem;
 
 /**
  * Created by rgr-myrg on 1/22/17.
  */
 
-public class SearchItemTable {
+public class SearchTermTable {
 	public static final String TABLE_NAME = "SearchItems";
 	public static final String TIMESTAMP  = "timestamp";
 
 	public static final String CREATE_TABLE = String.format(
 			"CREATE TABLE IF NOT EXISTS %s ("
+					+ "%s INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "%s TEXT NOT NULL,"
 					+ "%s DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL"
 					+ ")",
 			TABLE_NAME,
-			SearchItem.DESCRIPTION_COLUMN,
+			SearchTermItem.ITEM_ID_COLUMN,
+			SearchTermItem.DESCRIPTION_COLUMN,
 			TIMESTAMP
 	);
 

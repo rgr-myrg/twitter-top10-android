@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import net.usrlib.twittersearch.BuildConfig;
 import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.presenter.Presenter;
 import net.usrlib.twittersearch.util.UiUtil;
@@ -38,22 +39,47 @@ public class ListActivity extends AppCompatActivity {
 		Log.d("LIST", "onMenuSettingsSelected");
 	}
 
+	// Floating Button Handler
 	public void onAddSearchItemClick(View view) {
 		UiUtil.showNewItemAlertDialog(view.getContext(), null, value -> {
-			Log.d("LIST", "onAddSearchItemClick: " + value);
 			requestNewSearchItem(value);
 		});
 	}
 
 	@Background
 	protected void requestNewSearchItem(final String description) {
-		Presenter.addNewSearchItem(getApplicationContext(), description, rowId -> {
-			onRequestNewSearchItemComplete(rowId);
+		Presenter.startNewSearch(getApplicationContext(), description, results -> {
+				final int resultType = results.getType();
+
+				if (resultType == Presenter.SearchResult.SUCCESS) {
+					onRequestNewSearchItemComplete(
+							results.getSearchId(),
+							results.getSearchTerm()
+					);
+				} else {
+					onRequestNewSearchItemError(
+							results.getStatus(),
+							results.getMessage()
+					);
+				}
 		});
 	}
 
 	@UiThread
-	protected void onRequestNewSearchItemComplete(int rowId) {
-		Log.d("LIST", "onAddSearchItemClick: " + rowId);
+	protected void onRequestNewSearchItemComplete(final int searchId, final String searchTerm) {
+		Log.d("LIST", "onRequestNewSearchItemComplete: " + searchId + " : " + searchTerm);
+	}
+
+	@UiThread
+	protected void onRequestNewSearchItemError(final int status, final String message) {
+		if (BuildConfig.DEBUG) {
+			Log.e("ERROR", "Status: " + status + " : " + message);
+		}
 	}
 }
+/*
+public static final String AUTH_RESPONSE_ERROR = "AuthResponse error";
+	public static final String EMPTY_SEARCH_TERM = "Search term invalid";
+	public static final String NO_RESULTS_FOUND = "No results found";
+	public static final String SEARCH_NOT_ADDED = "Unable to add new search";
+ */

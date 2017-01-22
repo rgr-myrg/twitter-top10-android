@@ -1,6 +1,7 @@
 package net.usrlib.twittersearch.model;
 
-import java.util.ArrayList;
+import android.content.ContentValues;
+
 import java.util.List;
 
 /**
@@ -8,6 +9,21 @@ import java.util.List;
  */
 
 public class SearchResultItem {
+	public static final String RESULT_ID_COLUMN = "resultId";
+	public static final String USER_ID_COLUMN = "userId";
+	public static final String USERNAME_COLUMN = "userName";
+	public static final String PROFILE_IMAGE_URL_COLUMN = "userProfileImageUrl";
+	public static final String PROFILE_BACKGROUND_COLOR_COLUMN = "userProfileBackgroundColor";
+	public static final String TWEET_TEXT_COLUMN = "tweetText";
+	public static final String TWEET_MEDIA_URL_COLUMN = "tweetMediaUrl";
+	public static final String TWEET_MEDIA_TYPE_COLUMN = "tweetMediaType";
+	public static final String TWEET_FAVORITE_COUNT_COLUMN = "tweetFavoriteCount";
+	public static final String RETWEET_COUNT_COLUMN = "retweetCount";
+	public static final String FOLLOWERS_COUNT_COLUMN = "userFollowersCount";
+	public static final String FRIENDS_COUNT_COLUMN = "userFriendsCount";
+	public static final String STATUSES_COUNT_COLUMN = "userStatusesCount";
+
+	private int resultId;
 	private String userId;
 	private String userName;
 	private String userProfileImageUrl;
@@ -70,14 +86,41 @@ public class SearchResultItem {
 		return userStatusesCount;
 	}
 
-	public static final List<SearchResultItem> fromTwitterSearchResponse(final TwitterSearchResponse response) {
-		final List<SearchResultItem> results = new ArrayList<>();
-		final List<TwitterStatusData> list = response.getStatuses();
+	public static final ContentValues[] toContentValuesWithSearchTermId(
+			final List<TwitterStatusData> list, final int searchTermId) {
 
-		for (TwitterStatusData data : list) {
+		final ContentValues[] contentValues = new ContentValues[list.size()];
 
+		for (int i = 0; i < list.size(); i++) {
+			TwitterStatusData data = list.get(i);
+
+			ContentValues values = new ContentValues();
+			values.put(SearchTermItem.ITEM_ID_COLUMN, searchTermId);
+			values.put(USER_ID_COLUMN, data.getUser().getId());
+			values.put(USERNAME_COLUMN, data.getUser().getName());
+			values.put(PROFILE_IMAGE_URL_COLUMN, data.getUser().getProfileImageUrl());
+			values.put(PROFILE_BACKGROUND_COLOR_COLUMN, data.getUser().getProfileBackgroundColor());
+			values.put(TWEET_TEXT_COLUMN, data.getText());
+
+			TwitterEntitiesData entities = data.getEntities();
+
+			if (entities != null) {
+				List<TwitterEntitiesData.Media> mediaList = entities.getMedia();
+				if (mediaList != null && !mediaList.isEmpty() && mediaList.size() > 0) {
+					values.put(TWEET_MEDIA_URL_COLUMN, mediaList.get(0).getMediaUrl());
+					values.put(TWEET_MEDIA_TYPE_COLUMN, mediaList.get(0).getType());
+				}
+			}
+
+			values.put(TWEET_FAVORITE_COUNT_COLUMN, data.getFavoriteCount());
+			values.put(RETWEET_COUNT_COLUMN, data.getRetweetCount());
+			values.put(FOLLOWERS_COUNT_COLUMN, data.getUser().getFollowersCount());
+			values.put(FRIENDS_COUNT_COLUMN, data.getUser().getFriendsCount());
+			values.put(STATUSES_COUNT_COLUMN, data.getUser().getStatusesCount());
+
+			contentValues[i] = values;
 		}
 
-		return results;
+		return contentValues;
 	}
 }
