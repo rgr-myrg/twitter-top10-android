@@ -29,7 +29,6 @@ public class SearchTermItem {
 		this.description = description;
 	}
 
-
 	public static SearchTermItem fromDbCursor(final Cursor cursor) {
 		if (cursor == null) {
 			return null;
@@ -48,12 +47,13 @@ public class SearchTermItem {
 		String entry = "";
 
 		for (int i = 0; i < values.length; i++) {
-			String value = values[i].replaceAll(" ", "");
+			//String value = values[i].replaceAll(" ", "");
+			String value = values[i];
 			if (value.length() > 1) {
 				entry += String.format("#%s ", value);
 			}
 		}
 
-		return entry;
+		return entry.toLowerCase();
 	}
 }

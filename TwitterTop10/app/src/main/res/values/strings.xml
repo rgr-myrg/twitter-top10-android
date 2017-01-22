@@ -1,6 +1,13 @@
 <resources>
-	<string name="app_name">TwitterSearch</string>
+	<string name="app_name">Twitter Top 10</string>
+	<string name="list_activity">Twitter Search List</string>
 	<string name="action_settings">Settings</string>
 	<string name="enter_search_dialog_text_label">Search for Twitter Tags:</string>
 	<string name="list_empty">Click \'+\' to search for Twitter Tags!</string>
+	<string name="detail_list_empty">No Results found. Please start another search.</string>
+	<string name="hash">#</string>
+	<string name="heart">\u2665</string>
+	<string name="followers_label">Followers\n</string>
+	<string name="search_results_error">Oops! Wacky hijinks ensued. Please try again later.</string>
+	<string name="search_no_results">No results match your query.</string>
 </resources>

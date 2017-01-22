@@ -24,9 +24,8 @@ public class SearchTermTable {
 
 	public static final String DROP_TABLE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
 
-//	public static final String SELECT_ITEM_COUNT_WITH_BOOK_ID = String.format(
-//			"SELECT %s FROM %s WHERE %s = ?", Book.ITEM_COUNT, TABLE_NAME, Book.BOOK_ID
-//	);
-
-	public static final String SELECT_ALL = String.format("SELECT * FROM %s", TABLE_NAME);
+	public static final String SELECT_ALL = String.format(
+			"SELECT * FROM %s ORDER BY %s DESC",
+			TABLE_NAME, SearchTermItem.ITEM_ID_COLUMN
+	);
 }

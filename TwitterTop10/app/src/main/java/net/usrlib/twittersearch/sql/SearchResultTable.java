@@ -30,8 +30,8 @@ public class SearchResultTable {
 					+ "%s DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL"
 					+ ")",
 			TABLE_NAME,
-			SearchTermItem.ITEM_ID_COLUMN,
 			SearchResultItem.RESULT_ID_COLUMN,
+			SearchTermItem.ITEM_ID_COLUMN,
 			SearchResultItem.USER_ID_COLUMN,
 			SearchResultItem.USERNAME_COLUMN,
 			SearchResultItem.PROFILE_IMAGE_URL_COLUMN,
@@ -49,12 +49,10 @@ public class SearchResultTable {
 
 	public static final String DROP_TABLE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
 
-//	public static final String SELECT_ITEM_COUNT_WITH_BOOK_ID = String.format(
-//			"SELECT %s FROM %s WHERE %s = ?", Book.ITEM_COUNT, TABLE_NAME, Book.BOOK_ID
-//	);
-
 	public static final String SELECT_ALL = String.format("SELECT * FROM %s", TABLE_NAME);
-	public static final String WHERE_RESULT_ID = String.format(
-			"%s = ?", SearchResultItem.RESULT_ID_COLUMN
+
+	public static final String SELECT_ALL_WITH_ITEM_ID = String.format(
+			"%s WHERE %s = ? ORDER BY %s DESC LIMIT 10",
+			SELECT_ALL, SearchTermItem.ITEM_ID_COLUMN, SearchResultItem.RESULT_ID_COLUMN
 	);
 }

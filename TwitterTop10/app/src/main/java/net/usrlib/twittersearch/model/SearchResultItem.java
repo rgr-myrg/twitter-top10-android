@@ -1,6 +1,7 @@
 package net.usrlib.twittersearch.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import java.util.List;
 
@@ -122,5 +123,25 @@ public class SearchResultItem {
 		}
 
 		return contentValues;
+	}
+
+	public static SearchResultItem fromDbCursor(final Cursor cursor) {
+		if (cursor == null) {
+			return null;
+		}
+
+		final SearchResultItem searchItem = new SearchResultItem();
+
+		searchItem.userName = cursor.getString(cursor.getColumnIndex(USERNAME_COLUMN));
+		searchItem.userProfileImageUrl = cursor.getString(cursor.getColumnIndex(PROFILE_IMAGE_URL_COLUMN));
+		searchItem.userStatusesCount = cursor.getInt(cursor.getColumnIndex(STATUSES_COUNT_COLUMN));
+		searchItem.userFollowersCount = cursor.getInt(cursor.getColumnIndex(FOLLOWERS_COUNT_COLUMN));
+		searchItem.userFriendsCount = cursor.getInt(cursor.getColumnIndex(FRIENDS_COUNT_COLUMN));
+		searchItem.tweetText = cursor.getString(cursor.getColumnIndex(TWEET_TEXT_COLUMN));
+		searchItem.tweetMediaUrl = cursor.getString(cursor.getColumnIndex(TWEET_MEDIA_URL_COLUMN));
+		searchItem.tweetMediaType = cursor.getString(cursor.getColumnIndex(TWEET_MEDIA_TYPE_COLUMN));
+		searchItem.tweetFavoriteCount = cursor.getInt(cursor.getColumnIndex(TWEET_FAVORITE_COUNT_COLUMN));
+
+		return searchItem;
 	}
 }

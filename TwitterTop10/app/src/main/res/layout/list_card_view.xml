@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+	android:id="@+id/list_card_view"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_margin="@dimen/minimal_layout_size"
+	app:cardElevation="@dimen/cardview_elevation"
+	app:layout_anchorGravity="bottom"
+	app:cardUseCompatPadding="true"
+	card_view:contentPadding="@dimen/maximum_content_padding">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<LinearLayout
+			android:id="@+id/item_container"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:paddingRight="@dimen/default_content_padding"
+			android:paddingEnd="@dimen/default_content_padding"
+			android:gravity="center">
+
+			<TextView
+				android:id="@+id/item_icon"
+				android:layout_width="@dimen/drawable_text_icon_size"
+				android:layout_height="@dimen/drawable_text_icon_size"
+				android:background="@drawable/circle"
+				android:gravity="center"
+				android:text="@string/hash"
+				android:textColor="@android:color/white"
+				style="@style/TextAppearance.AppCompat.Small.Inverse"
+				/>
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/item_description"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="center_vertical"
+			android:paddingLeft="@dimen/minimal_content_padding"
+			style="@style/Base.TextAppearance.AppCompat.Medium"/>
+	</LinearLayout>
+</android.support.v7.widget.CardView>
