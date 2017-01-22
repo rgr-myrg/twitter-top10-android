@@ -1,0 +1,6 @@
+<resources>
+	<string name="app_name">TwitterSearch</string>
+	<string name="action_settings">Settings</string>
+	<string name="enter_search_dialog_text_label">Search for Twitter Tags:</string>
+	<string name="list_empty">Click \'+\' to search for Twitter Tags!</string>
+</resources>
