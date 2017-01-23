@@ -23,13 +23,7 @@
 	</android.support.design.widget.AppBarLayout>
 
 	<include layout="@layout/list_fragment"/>
-
-	<ProgressBar
-		android:id="@+id/progress_bar"
-		android:layout_width="@dimen/splash_screen_image_size"
-		android:layout_height="@dimen/splash_screen_image_size"
-        android:visibility="invisible"
-		android:layout_gravity="center"/>
+	<include layout="@layout/progress_bar"/>
 
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/fab"

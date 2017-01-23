@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import net.usrlib.twittersearch.R;
+import net.usrlib.twittersearch.model.SearchTermItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,6 +29,20 @@ public class DetailActivity extends AppCompatActivity {
 	protected void setSupportActionBar() {
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		final Intent intent = getIntent();
+
+		if (intent == null) {
+			return;
+		}
+
+		final String searchTerm = intent.getStringExtra(SearchTermItem.DESCRIPTION_COLUMN);
+
+		if (searchTerm == null) {
+			return;
+		}
+
+		getSupportActionBar().setTitle(searchTerm);
 	}
 
 	@OptionsItem(R.id.action_settings)

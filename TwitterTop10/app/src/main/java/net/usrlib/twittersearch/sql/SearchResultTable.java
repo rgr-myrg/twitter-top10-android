@@ -53,6 +53,6 @@ public class SearchResultTable {
 
 	public static final String SELECT_ALL_WITH_ITEM_ID = String.format(
 			"%s WHERE %s = ? ORDER BY %s DESC LIMIT 10",
-			SELECT_ALL, SearchTermItem.ITEM_ID_COLUMN, SearchResultItem.RESULT_ID_COLUMN
+			SELECT_ALL, SearchTermItem.ITEM_ID_COLUMN, TIMESTAMP
 	);
 }
