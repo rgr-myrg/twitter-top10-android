@@ -11,6 +11,7 @@ import net.usrlib.twittersearch.rest.TwitterSearch;
 import net.usrlib.twittersearch.sql.SearchResultTable;
 import net.usrlib.twittersearch.sql.SearchTermTable;
 import net.usrlib.twittersearch.util.DbHelper;
+import net.usrlib.twittersearch.util.Preferences;
 
 import java.util.List;
 
@@ -74,6 +75,7 @@ public class Presenter {
 
 					result.setSearchId(newRowId);
 					result.setSearchTerm(searchTerm);
+
 					callback.run(result);
 				})
 				.onError(msg -> {
@@ -82,6 +84,7 @@ public class Presenter {
 					callback.run(result);
 				})
 				.searchByHashTag(searchTerm)
+				.searchType(Preferences.getSearchType(context))
 				.post();
 	}
 

@@ -48,7 +48,7 @@ public class ListActivity extends AppCompatActivity {
 
 	@OptionsItem(R.id.action_settings)
 	protected void onMenuSettingsSelected() {
-		Log.d("LIST", "onMenuSettingsSelected");
+		startActivity(new Intent(getApplicationContext(), SettingsActivity_.class));
 	}
 
 	// Floating Button Handler
@@ -62,19 +62,19 @@ public class ListActivity extends AppCompatActivity {
 	@Background
 	protected void requestNewSearchItem(final String description) {
 		Presenter.startSearchRequest(getApplicationContext(), DbHelper.NO_ID, description, results -> {
-				final int resultType = results.getType();
+			final int resultType = results.getType();
 
-				if (resultType == Presenter.SearchResult.SUCCESS) {
-					onRequestNewSearchItemComplete(
-							results.getSearchId(),
-							results.getSearchTerm()
-					);
-				} else {
-					onRequestNewSearchItemError(
-							results.getStatus(),
-							results.getMessage()
-					);
-				}
+			if (resultType == Presenter.SearchResult.SUCCESS) {
+				onRequestNewSearchItemComplete(
+						results.getSearchId(),
+						results.getSearchTerm()
+				);
+			} else {
+				onRequestNewSearchItemError(
+						results.getStatus(),
+						results.getMessage()
+				);
+			}
 		});
 	}
 

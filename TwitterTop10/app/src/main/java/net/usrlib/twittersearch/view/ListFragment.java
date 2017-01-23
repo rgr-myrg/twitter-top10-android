@@ -50,11 +50,6 @@ public class ListFragment extends Fragment {
 	}
 
 	private void initRecyclerViewAndAdapter(final Cursor cursor) {
-		if (mRecyclerAdapter != null) {
-			mRecyclerAdapter.changeCursor(cursor);
-			return;
-		}
-
 		mRecyclerAdapter = new ListAdapter(getContext(), cursor, position -> {
 			startDetailActivity(position);
 		});

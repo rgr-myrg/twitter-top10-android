@@ -3,7 +3,6 @@ package net.usrlib.twittersearch.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.model.SearchTermItem;
@@ -11,7 +10,6 @@ import net.usrlib.twittersearch.model.SearchTermItem;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 /**
@@ -19,7 +17,6 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EActivity(R.layout.detail_activity)
-@OptionsMenu(R.menu.menu_main)
 
 public class DetailActivity extends AppCompatActivity {
 	@ViewById(R.id.toolbar)
@@ -43,11 +40,6 @@ public class DetailActivity extends AppCompatActivity {
 		}
 
 		getSupportActionBar().setTitle(searchTerm);
-	}
-
-	@OptionsItem(R.id.action_settings)
-	protected void onMenuSettingsSelected() {
-		Log.d("RESULT", "onMenuSettingsSelected");
 	}
 
 	@OptionsItem(android.R.id.home)

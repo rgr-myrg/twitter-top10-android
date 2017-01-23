@@ -9,7 +9,13 @@ import java.util.List;
  */
 
 public class TwitterSearchResponse {
-	public static final String RESULT_TYPE = "popular";
+	public static final String SEARCH_TYPE_POPULAR = "popular";
+	public static final String SEARCH_TYPE_RECENT  = "recent";
+	public static final String SEARCH_TYPE_MIXED   = "mixed";
+
+	public static final int FREQUENCY_HIGH = 1;
+	public static final int FREQUENCY_MEDIUM = 3;
+	public static final int FREQUENCY_LOW = 5;
 
 	@SerializedName("statuses")
 	private List<TwitterStatusData> statuses;

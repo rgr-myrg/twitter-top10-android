@@ -28,6 +28,7 @@ public class TwitterSearch {
 	private RetrofitApi mRetrofitApi;
 	private String mApiAuthString;
 	private String mSearchText;
+	private String mSearchType = TwitterSearchResponse.SEARCH_TYPE_RECENT;
 	private TwitterAuthResponse mTwitterAuthResponse;
 
 	// Callbacks
@@ -60,6 +61,11 @@ public class TwitterSearch {
 
 	public TwitterSearch searchByHashTag(final String hashtag) {
 		mSearchText = hashtag;
+		return this;
+	}
+
+	public TwitterSearch searchType(final String searchType) {
+		mSearchType = searchType;
 		return this;
 	}
 
@@ -110,7 +116,7 @@ public class TwitterSearch {
 		final Call<TwitterSearchResponse> searchCall = mRetrofitApi.requestTextSearch(
 				String.format("Bearer %s", mTwitterAuthResponse.getAccessToken()),
 				mSearchText,
-				TwitterSearchResponse.RESULT_TYPE
+				mSearchType
 		);
 
 		searchCall.enqueue(new Callback<TwitterSearchResponse>() {

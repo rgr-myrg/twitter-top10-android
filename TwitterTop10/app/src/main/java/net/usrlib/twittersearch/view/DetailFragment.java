@@ -20,6 +20,7 @@ import net.usrlib.twittersearch.model.SearchTermItem;
 import net.usrlib.twittersearch.presenter.Presenter;
 import net.usrlib.twittersearch.service.SearchUpdateService;
 import net.usrlib.twittersearch.util.DbHelper;
+import net.usrlib.twittersearch.util.Preferences;
 import net.usrlib.twittersearch.util.UiUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -39,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 
 public class DetailFragment extends Fragment {
 	public static final String TAG = DetailFragment.class.getSimpleName();
-	public static final int TIMELAPSE_MINUTES = 1;
 
 	@ViewById(R.id.detail_recycler_view)
 	protected RecyclerView mRecyclerView;
@@ -129,9 +129,27 @@ public class DetailFragment extends Fragment {
 	}
 
 	protected void scheduleService() {
-		mScheduledFuture = mScheduler.scheduleAtFixedRate(() -> {
-			requestDataRefresh();
-		}, 0, TIMELAPSE_MINUTES, TimeUnit.MINUTES);
+		final int timeDelay = Preferences.getRefreshFrequency(getContext());
+
+		mScheduledFuture = mScheduler.scheduleAtFixedRate(
+				() -> requestDataRefresh(),
+				timeDelay,
+				timeDelay,
+				TimeUnit.MINUTES
+		);
+
+		if (BuildConfig.DEBUG) {
+			Log.i(TAG, "Scheduled service with timeDelay: " + timeDelay);
+		}
+
+		final String msg = String.format(
+				"%s %d minute%s",
+				getString(R.string.schedule_message),
+				timeDelay,
+				timeDelay == 1 ? "." : "s."
+		);
+
+		UiUtil.makeSnackbar(getView(), msg);
 	}
 
 	protected void initRecyclerViewAndAdapter(final Cursor cursor) {
@@ -163,12 +181,26 @@ public class DetailFragment extends Fragment {
 					break;
 
 				case SearchUpdateService.STATUS_STARTED:
-					UiUtil.makeSnackbar(getView(), getString(R.string.refresh_message));
+					final String type = Preferences.getSearchType(getContext());
+					final String msg = String.format(
+							"%s %s%s results.",
+							getString(R.string.refresh_message),
+							String.valueOf(type.charAt(0)).toUpperCase(),
+							type.substring(1)
+					);
+					UiUtil.makeSnackbar(getView(), msg);
 					break;
 
 				case SearchUpdateService.STATUS_COMPLETE:
 					mSwipeRefreshLayout.setRefreshing(false);
 					fetchDataFromDb();
+					break;
+
+				case SearchUpdateService.STATUS_EXCEPTION:
+					UiUtil.makeSnackbar(
+							getView(),
+							intent.getStringExtra(SearchUpdateService.STATUS_MESSAGE)
+					);
 					break;
 			}
 		}

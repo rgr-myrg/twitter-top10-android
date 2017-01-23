@@ -1,10 +1,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="net.usrlib.twittersearch.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+	  xmlns:app="http://schemas.android.com/apk/res-auto"
+	  xmlns:tools="http://schemas.android.com/tools"
+	  tools:context="net.usrlib.twittersearch.view.ListActivity_">
+	<item
+		android:id="@+id/action_settings"
+		android:orderInCategory="100"
+		android:title="@string/action_settings"
+		app:showAsAction="never"/>
+
+	<!--<group android:checkableBehavior="single">-->
+	<!--<item-->
+	<!--android:id="@+id/action_type_recent"-->
+	<!--android:orderInCategory="100"-->
+	<!--android:title="@string/action_recent"-->
+	<!--app:showAsAction="never"/>-->
+	<!--<item-->
+	<!--android:id="@+id/action_type_popular"-->
+	<!--android:orderInCategory="101"-->
+	<!--android:title="@string/action_popular"-->
+	<!--app:showAsAction="never"/>-->
+	<!--<item-->
+	<!--android:id="@+id/action_type_mixed"-->
+	<!--android:orderInCategory="102"-->
+	<!--android:title="@string/action_mixed"-->
+	<!--app:showAsAction="never"/>-->
+	<!--</group>-->
+	<!--<item-->
+	<!--android:id="@+id/action_refresh"-->
+	<!--android:orderInCategory="103"-->
+	<!--android:title="@string/action_refresh"-->
+	<!--app:showAsAction="never"/>-->
+	<!--<item-->
+	<!--android:id="@+id/action_frequency"-->
+	<!--android:orderInCategory="104"-->
+	<!--android:title="@string/action_frequency"-->
+	<!--app:showAsAction="never"/>-->
 </menu>

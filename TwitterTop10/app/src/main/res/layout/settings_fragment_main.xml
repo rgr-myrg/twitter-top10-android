@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	android:id="@+id/settings_fragment_main"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context=".view.SettingsFragment_"
+	tools:showIn="@layout/settings_activity">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			style="@style/Base.TextAppearance.AppCompat.Medium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/settings_search_type_header"
+			android:textStyle="bold"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="@dimen/minimal_content_padding"
+			android:layout_marginTop="@dimen/minimal_content_padding"
+			android:background="@color/colorGray"/>
+
+		<RadioGroup
+			android:id="@+id/search_type_options"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/minimal_content_padding">
+
+			<RadioButton
+				android:id="@+id/radio_most_recent"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_type_recent"/>
+
+			<RadioButton
+				android:id="@+id/radio_most_popular"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_type_popular"/>
+
+			<RadioButton
+				android:id="@+id/radio_mixed"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_type_mixed"/>
+		</RadioGroup>
+
+		<TextView
+			style="@style/Base.TextAppearance.AppCompat.Medium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/minimal_content_padding"
+			android:text="@string/settings_search_frequency_header"
+			android:textStyle="bold"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="@dimen/minimal_content_padding"
+			android:layout_marginTop="@dimen/minimal_content_padding"
+			android:background="@color/colorGray"/>
+
+		<RadioGroup
+			android:id="@+id/frequency_options"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/minimal_content_padding">
+
+			<RadioButton
+				android:id="@+id/radio_frequency_high"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_frequency_high"/>
+
+			<RadioButton
+				android:id="@+id/radio_frequency_medium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_frequency_medium"/>
+
+			<RadioButton
+				android:id="@+id/radio_frequency_low"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_frequency_low"/>
+		</RadioGroup>
+	</LinearLayout>
+</RelativeLayout>

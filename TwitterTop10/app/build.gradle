@@ -50,7 +50,7 @@ dependencies {
 	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 	compile "com.google.code.gson:gson:$gsonVersion"
 	compile "org.greenrobot:eventbus:$eventbusVersion"
-    compile "net.usrlib:material-color:$materialColorVersion"
+	compile "net.usrlib:material-color:$materialColorVersion"
 
 	testCompile "junit:junit:4.12"
 }
