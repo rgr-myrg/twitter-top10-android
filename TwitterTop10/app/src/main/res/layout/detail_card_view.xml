@@ -26,17 +26,15 @@
 				android:id="@+id/user_profile_image"
 				android:layout_width="@dimen/user_profile_image_size"
 				android:layout_height="@dimen/user_profile_image_size"
-				android:padding="@dimen/minimal_content_padding"
-				android:src="@drawable/twitter_logo_blue"/>
+				android:padding="@dimen/minimal_content_padding"/>
 
 			<TextView
 				android:id="@+id/followers_count"
 				style="@style/Base.TextAppearance.AppCompat.Small"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="left"
+				android:layout_gravity="start"
 				android:padding="@dimen/minimal_content_padding"
-				android:text="Followers\n555"
 				android:textStyle="bold"/>
 		</LinearLayout>
 
@@ -50,31 +48,27 @@
 				style="@style/Base.TextAppearance.AppCompat.Small"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Roger Mayorga"
 				android:textStyle="bold"/>
 
 			<TextView
 				android:id="@+id/tweet_text"
 				style="@style/Base.TextAppearance.AppCompat.Small"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="My Tweet"/>
+				android:layout_height="wrap_content"/>
 
 			<ImageView
 				android:id="@+id/tweet_image"
 				android:layout_width="match_parent"
 				android:layout_height="250dp"
-				android:layout_gravity="center"
-				android:src="@drawable/twitter_logo_blue"/>
+				android:layout_gravity="center"/>
 
 			<TextView
 				android:id="@+id/tweet_stats"
 				style="@style/Base.TextAppearance.AppCompat.Small"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_gravity="bottom|left"
-				android:gravity="left"
-				android:text="2344 234 34534"
+				android:layout_gravity="bottom|start"
+				android:gravity="start"
 				android:textStyle="bold"/>
 		</LinearLayout>
 	</LinearLayout>

@@ -29,8 +29,8 @@ def appCompatVersion = '25.1.0'
 def glideVersion = '3.7.0'
 def retrofitVersion = '2.1.0'
 def gsonVersion = '2.8.0'
-def eventbusVersion = '3.0.0'
 def materialColorVersion = '0.2'
+//def assertjVersion = '3.6.2';
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,8 +49,8 @@ dependencies {
 	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
 	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 	compile "com.google.code.gson:gson:$gsonVersion"
-	compile "org.greenrobot:eventbus:$eventbusVersion"
 	compile "net.usrlib:material-color:$materialColorVersion"
 
+	//testCompile "org.assertj:assertj-core:$assertjVersion"
 	testCompile "junit:junit:4.12"
 }

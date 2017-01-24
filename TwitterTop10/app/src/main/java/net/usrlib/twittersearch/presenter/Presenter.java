@@ -83,7 +83,7 @@ public class Presenter {
 					result.setMessage(msg);
 					callback.run(result);
 				})
-				.searchByHashTag(searchTerm)
+				.searchWithHashTag(searchTerm)
 				.searchType(Preferences.getSearchType(context))
 				.post();
 	}

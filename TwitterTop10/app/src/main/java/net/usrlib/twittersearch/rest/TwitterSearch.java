@@ -22,6 +22,7 @@ public class TwitterSearch {
 	public static final String TAG = TwitterSearch.class.getSimpleName();
 	public static final String BASE_URL = "https://api.twitter.com/";
 	public static final String UTF8 = "UTF-8";
+	public static final String TOKEN_TYPE = "bearer";
 
 	private static TwitterSearch sInstance;
 
@@ -59,7 +60,7 @@ public class TwitterSearch {
 		return this;
 	}
 
-	public TwitterSearch searchByHashTag(final String hashtag) {
+	public TwitterSearch searchWithHashTag(final String hashtag) {
 		mSearchText = hashtag;
 		return this;
 	}
@@ -166,7 +167,7 @@ public class TwitterSearch {
 
 	private void sendErrorMessage(final String message) {
 		if (BuildConfig.DEBUG) {
-			Log.i(TAG, message);
+			Log.e(TAG, message);
 		}
 
 		if (mOnError != null) {

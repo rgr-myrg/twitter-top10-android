@@ -12,8 +12,8 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 		<activity
-			android:name=".view.SplashScreenActivity_"
-			android:label="@string/app_name"
+			android:name=".view.ListActivity_"
+			android:label="@string/list_activity"
 			android:launchMode="singleTop"
 			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
@@ -22,11 +22,6 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity
-			android:name=".view.ListActivity_"
-			android:label="@string/list_activity"
-			android:launchMode="singleTop"
-			android:theme="@style/AppTheme.NoActionBar"/>
 		<activity
 			android:name=".view.DetailActivity_"
 			android:label="@string/app_name"
