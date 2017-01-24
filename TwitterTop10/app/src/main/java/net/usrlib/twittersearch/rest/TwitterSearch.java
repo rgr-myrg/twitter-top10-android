@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 /**
  * Wraps Retrofit client and provides single entry point
- * usage for the twitter reste api.
+ * usage for the twitter rest api.
  * Created by rgr-myrg on 1/21/17.
  */
 
