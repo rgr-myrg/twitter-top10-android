@@ -15,6 +15,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * Wraps Retrofit client and provides single entry point
+ * usage for the twitter reste api.
  * Created by rgr-myrg on 1/21/17.
  */
 
@@ -146,6 +148,7 @@ public class TwitterSearch {
 	/*
 	 * Encode api key and secret.
 	 * https://dev.twitter.com/oauth/application-only
+	 * @return the formatted auth string
 	 */
 	private String getApiAuthString() {
 		String authString = null;

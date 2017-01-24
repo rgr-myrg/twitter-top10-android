@@ -4,6 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * Creates Retrofit Client with Retrofit.Builder()
  * Created by rgr-myrg on 1/21/17.
  */
 
