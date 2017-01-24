@@ -30,7 +30,6 @@ def glideVersion = '3.7.0'
 def retrofitVersion = '2.1.0'
 def gsonVersion = '2.8.0'
 def materialColorVersion = '0.2'
-//def assertjVersion = '3.6.2';
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -51,6 +50,5 @@ dependencies {
 	compile "com.google.code.gson:gson:$gsonVersion"
 	compile "net.usrlib:material-color:$materialColorVersion"
 
-	//testCompile "org.assertj:assertj-core:$assertjVersion"
 	testCompile "junit:junit:4.12"
 }
