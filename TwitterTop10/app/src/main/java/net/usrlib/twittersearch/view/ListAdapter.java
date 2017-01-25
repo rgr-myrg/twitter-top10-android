@@ -1,9 +1,11 @@
 package net.usrlib.twittersearch.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,8 +31,8 @@ public class ListAdapter extends RecyclerView.Adapter {
 
 	public ListAdapter(Context context, Cursor cursor, OnItemClick callback) {
 		this.mInflater = LayoutInflater.from(context);
-		this.mContext  = context;
-		this.mCursor   = cursor;
+		this.mContext = context;
+		this.mCursor = cursor;
 		this.mOnItemClick = callback;
 	}
 

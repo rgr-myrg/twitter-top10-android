@@ -21,12 +21,7 @@
 			android:text="@string/settings_search_type_header"
 			android:textStyle="bold"/>
 
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_marginBottom="@dimen/minimal_content_padding"
-			android:layout_marginTop="@dimen/minimal_content_padding"
-			android:background="@color/colorGray"/>
+		<include layout="@layout/hr_line" />
 
 		<RadioGroup
 			android:id="@+id/search_type_options"
@@ -65,12 +60,7 @@
 			android:text="@string/settings_search_frequency_header"
 			android:textStyle="bold"/>
 
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_marginBottom="@dimen/minimal_content_padding"
-			android:layout_marginTop="@dimen/minimal_content_padding"
-			android:background="@color/colorGray"/>
+		<include layout="@layout/hr_line" />
 
 		<RadioGroup
 			android:id="@+id/frequency_options"
@@ -99,6 +89,43 @@
 				android:layout_height="wrap_content"
 				android:onClick="onRadioButtonClicked"
 				android:text="@string/settings_search_frequency_low"/>
+		</RadioGroup>
+		<TextView
+			style="@style/Base.TextAppearance.AppCompat.Medium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/settings_search_count_header"
+			android:textStyle="bold"/>
+
+		<include layout="@layout/hr_line" />
+
+		<RadioGroup
+			android:id="@+id/search_count_options"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/minimal_content_padding">
+
+			<RadioButton
+				android:id="@+id/radio_count_low"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_count_low"/>
+
+			<RadioButton
+				android:id="@+id/radio_count_medium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_count_medium"/>
+
+			<RadioButton
+				android:id="@+id/radio_count_high"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="onRadioButtonClicked"
+				android:text="@string/settings_search_count_high"/>
 		</RadioGroup>
 	</LinearLayout>
 </RelativeLayout>

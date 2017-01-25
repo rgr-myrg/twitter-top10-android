@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -50,7 +51,7 @@ public class DetailFragment extends Fragment {
 	@ViewById(R.id.detail_swipe_refresh_layout)
 	protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-	protected ScheduledExecutorService mScheduler = Executors.newScheduledThreadPool(1);
+	protected ScheduledExecutorService mScheduler = Executors.newScheduledThreadPool(2);
 	protected ScheduledFuture<?> mScheduledFuture;
 	protected DetailAdapter mRecyclerAdapter = null;
 	protected int mSearchItemId;
@@ -82,21 +83,26 @@ public class DetailFragment extends Fragment {
 	@Override
 	public void onStop() {
 		super.onStop();
-
-		if (mScheduledFuture == null) {
-			return;
-		}
-
-		if (!mScheduledFuture.isDone()) {
-			mScheduler.shutdown();
-		}
+		//stopScheduledTask();
 	}
+
+//	@Override
+//	public void onPause() {
+//		super.onPause();
+//		stopScheduledTask();
+//	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 		scheduleService();
 	}
+
+//	@Override
+//	public void onResume() {
+//		super.onResume();
+//		scheduleService();
+//	}
 
 	protected void fetchDataFromDb() {
 		if (BuildConfig.DEBUG) {
@@ -128,6 +134,17 @@ public class DetailFragment extends Fragment {
 		);
 	}
 
+	protected void stopScheduledTask() {
+		if (mScheduledFuture == null) {
+			return;
+		}
+
+		if (!mScheduledFuture.isDone()) {
+			mScheduler.shutdownNow();
+			//mScheduler.shutdown();
+		}
+	}
+
 	protected void scheduleService() {
 		final int timeDelay = Preferences.getRefreshFrequency(getContext());
 
@@ -153,7 +170,9 @@ public class DetailFragment extends Fragment {
 	}
 
 	protected void initRecyclerViewAndAdapter(final Cursor cursor) {
-		mRecyclerAdapter = new DetailAdapter(getContext(), cursor, position -> {
+		mRecyclerAdapter = new DetailAdapter(getContext(), cursor, url -> {
+			openItemUrl(url);
+
 		});
 
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -161,6 +180,19 @@ public class DetailFragment extends Fragment {
 		mRecyclerView.setAdapter(mRecyclerAdapter);
 
 		mSwipeRefreshLayout.setRefreshing(false);
+	}
+
+	protected void openItemUrl(final String url) {
+		if (url == null || !url.startsWith("http")) {
+			return;
+		}
+
+		final Uri uri = Uri.parse(url);
+		final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+			startActivity(intent);
+		}
 	}
 
 	protected BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

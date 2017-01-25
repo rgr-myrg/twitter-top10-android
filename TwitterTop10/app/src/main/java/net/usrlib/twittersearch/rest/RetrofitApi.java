@@ -2,6 +2,7 @@ package net.usrlib.twittersearch.rest;
 
 import net.usrlib.twittersearch.model.TwitterAuthResponse;
 import net.usrlib.twittersearch.model.TwitterSearchResponse;
+import net.usrlib.twittersearch.model.TwitterTrendResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -33,6 +34,18 @@ public interface RetrofitApi {
 	Call<TwitterSearchResponse> requestTextSearch(
 			@Header("Authorization") String authorization,
 			@Query("q") String textQuery,
-			@Query("result_type") String resultType
+			@Query("result_type") String resultType,
+	        @Query("count") int resultCount
+	);
+
+	/*
+	 * https://dev.twitter.com/rest/reference/get/trends/place
+	 */
+	@GET("1.1/trends/place.json")
+	Call<TwitterTrendResponse> requestTrendSearch(
+			@Header("Authorization") String authorization,
+			// Requires where on earth id
+			// https://developer.yahoo.com/geo/geoplanet
+			@Query("id") String woeid
 	);
 }

@@ -43,6 +43,15 @@ public class SettingsActivity extends AppCompatActivity {
 	@ViewById(R.id.radio_frequency_low)
 	protected RadioButton mRadioFrequencyLow;
 
+	@ViewById(R.id.radio_count_high)
+	protected RadioButton mRadioCountHigh;
+
+	@ViewById(R.id.radio_count_medium)
+	protected RadioButton mRadioCountMedium;
+
+	@ViewById(R.id.radio_count_low)
+	protected RadioButton mRadioCountLow;
+
 	@AfterViews
 	protected void setSupportActionBar() {
 		setSupportActionBar(mToolbar);
@@ -78,11 +87,26 @@ public class SettingsActivity extends AppCompatActivity {
 				mRadioFrequencyLow.setChecked(true);
 				break;
 		}
+
+		final int count = Preferences.getSearchCount(getApplicationContext());
+
+		switch (count) {
+			case TwitterSearchResponse.SEARCH_COUNT_HIGH:
+				mRadioCountHigh.setChecked(true);
+				break;
+			case TwitterSearchResponse.SEARCH_COUNT_MEDIUM:
+				mRadioCountMedium.setChecked(true);
+				break;
+			case TwitterSearchResponse.SEARCH_COUNT_LOW:
+				mRadioCountLow.setChecked(true);
+				break;
+		}
 	}
 
 	@OptionsItem(android.R.id.home)
 	void onAndroidHomeSelected() {
 		startActivity(new Intent(getApplicationContext(), ListActivity_.class));
+		finish();
 	}
 
 	public void onRadioButtonClicked(View view) {
@@ -127,6 +151,24 @@ public class SettingsActivity extends AppCompatActivity {
 				Preferences.setRefreshFrequency(
 						getApplicationContext(),
 						TwitterSearchResponse.FREQUENCY_LOW
+				);
+				break;
+			case R.id.radio_count_high:
+				Preferences.setSearchCount(
+						getApplicationContext(),
+						TwitterSearchResponse.SEARCH_COUNT_HIGH
+				);
+				break;
+			case R.id.radio_count_medium:
+				Preferences.setSearchCount(
+						getApplicationContext(),
+						TwitterSearchResponse.SEARCH_COUNT_MEDIUM
+				);
+				break;
+			case R.id.radio_count_low:
+				Preferences.setSearchCount(
+						getApplicationContext(),
+						TwitterSearchResponse.SEARCH_COUNT_LOW
 				);
 				break;
 		}

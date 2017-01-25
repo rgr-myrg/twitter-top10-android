@@ -2,6 +2,7 @@ package net.usrlib.twittersearch.view;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,10 @@ import net.usrlib.material.MaterialTheme;
 import net.usrlib.material.Theme;
 import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.model.SearchResultItem;
+import net.usrlib.twittersearch.model.TwitterSearchResponse;
+
+import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by rgr-myrg on 1/22/17.
@@ -29,8 +34,8 @@ public class DetailAdapter extends RecyclerView.Adapter {
 
 	public DetailAdapter(Context context, Cursor cursor, OnItemClick callback) {
 		this.mInflater = LayoutInflater.from(context);
-		this.mContext  = context;
-		this.mCursor   = cursor;
+		this.mContext = context;
+		this.mCursor = cursor;
 		this.mOnItemClick = callback;
 	}
 
@@ -103,10 +108,10 @@ public class DetailAdapter extends RecyclerView.Adapter {
 
 			profileImage = (ImageView) view.findViewById(R.id.user_profile_image);
 			tweetImage = (ImageView) view.findViewById(R.id.tweet_image);
-			userName   = (TextView) view.findViewById(R.id.user_name);
-			tweetText  = (TextView) view.findViewById(R.id.tweet_text);
+			userName = (TextView) view.findViewById(R.id.user_name);
+			tweetText = (TextView) view.findViewById(R.id.tweet_text);
 			tweetStats = (TextView) view.findViewById(R.id.tweet_stats);
-			followers  = (TextView) view.findViewById(R.id.followers_count);
+			followers = (TextView) view.findViewById(R.id.followers_count);
 		}
 
 		public void bindData(final SearchResultItem data) {
@@ -114,11 +119,21 @@ public class DetailAdapter extends RecyclerView.Adapter {
 
 			userName.setText(data.getUserName());
 			tweetText.setText(data.getTweetText());
+
+			String tweetUrl = TwitterSearchResponse.TWITTER_STATUSES_URL
+					.replaceFirst("\\?", data.getUserScreenName())
+					.replaceFirst("\\?", data.getTweetIdString());
+
+			tweetText.setOnClickListener(view -> {
+				mOnItemClick.run(tweetUrl);
+			});
+
 			tweetStats.setText(
 					String.format("%s %d",
 							mContext.getString(R.string.heart),
 							data.getTweetFavoriteCount())
 			);
+
 			followers.setText(
 					String.format("%s %d",
 							mContext.getString(R.string.followers_label),
@@ -141,6 +156,6 @@ public class DetailAdapter extends RecyclerView.Adapter {
 	}
 
 	public interface OnItemClick {
-		void run(int position);
+		void run(String url);
 	}
 }

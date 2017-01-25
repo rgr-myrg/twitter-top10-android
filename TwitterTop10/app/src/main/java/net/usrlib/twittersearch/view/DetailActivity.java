@@ -45,5 +45,12 @@ public class DetailActivity extends AppCompatActivity {
 	@OptionsItem(android.R.id.home)
 	void onAndroidHomeSelected() {
 		startActivity(new Intent(getApplicationContext(), ListActivity_.class));
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		onAndroidHomeSelected();
 	}
 }

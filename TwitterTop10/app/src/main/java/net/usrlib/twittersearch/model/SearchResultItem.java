@@ -13,8 +13,11 @@ public class SearchResultItem {
 	public static final String RESULT_ID_COLUMN = "resultId";
 	public static final String USER_ID_COLUMN = "userId";
 	public static final String USERNAME_COLUMN = "userName";
+	public static final String USER_SCREEN_NAME_COLUMN = "userScreenName";
 	public static final String PROFILE_IMAGE_URL_COLUMN = "userProfileImageUrl";
 	public static final String PROFILE_BACKGROUND_COLOR_COLUMN = "userProfileBackgroundColor";
+	public static final String ENTITY_URL_COLUMN = "entityUrl";
+	public static final String TWEET_ID_STRING_COLUMN = "tweetIdString";
 	public static final String TWEET_TEXT_COLUMN = "tweetText";
 	public static final String TWEET_MEDIA_URL_COLUMN = "tweetMediaUrl";
 	public static final String TWEET_MEDIA_TYPE_COLUMN = "tweetMediaType";
@@ -27,8 +30,11 @@ public class SearchResultItem {
 	private int resultId;
 	private String userId;
 	private String userName;
+	private String userScreenName;
 	private String userProfileImageUrl;
 	private String userProfileBackgroundColor;
+	private String entityUrl;
+	private String tweetIdString;
 	private String tweetText;
 	private String tweetMediaUrl;
 	private String tweetMediaType;
@@ -47,6 +53,10 @@ public class SearchResultItem {
 		return userName;
 	}
 
+	public String getUserScreenName() {
+		return userScreenName;
+	}
+
 	public String getUserProfileImageUrl() {
 		return userProfileImageUrl;
 	}
@@ -55,8 +65,16 @@ public class SearchResultItem {
 		return userProfileBackgroundColor;
 	}
 
+	public String getEntityUrl() {
+		return entityUrl;
+	}
+
 	public int getUserFollowersCount() {
 		return userFollowersCount;
+	}
+
+	public String getTweetIdString() {
+		return tweetIdString;
 	}
 
 	public String getTweetText() {
@@ -99,8 +117,10 @@ public class SearchResultItem {
 			values.put(SearchTermItem.ITEM_ID_COLUMN, searchTermId);
 			values.put(USER_ID_COLUMN, data.getUser().getId());
 			values.put(USERNAME_COLUMN, data.getUser().getName());
+			values.put(USER_SCREEN_NAME_COLUMN, data.getUser().getScreenName());
 			values.put(PROFILE_IMAGE_URL_COLUMN, data.getUser().getProfileImageUrl());
 			values.put(PROFILE_BACKGROUND_COLOR_COLUMN, data.getUser().getProfileBackgroundColor());
+			values.put(TWEET_ID_STRING_COLUMN, data.getIdString());
 			values.put(TWEET_TEXT_COLUMN, data.getText());
 
 			TwitterEntitiesData entities = data.getEntities();
@@ -110,6 +130,10 @@ public class SearchResultItem {
 				if (mediaList != null && !mediaList.isEmpty() && mediaList.size() > 0) {
 					values.put(TWEET_MEDIA_URL_COLUMN, mediaList.get(0).getMediaUrl());
 					values.put(TWEET_MEDIA_TYPE_COLUMN, mediaList.get(0).getType());
+				}
+				List<TwitterEntitiesData.EntityUrl> urlList = entities.getUrls();
+				if (urlList != null && !urlList.isEmpty() && urlList.size() > 0) {
+					values.put(ENTITY_URL_COLUMN, urlList.get(0).getExpandedUrl());
 				}
 			}
 
@@ -133,14 +157,17 @@ public class SearchResultItem {
 		final SearchResultItem searchItem = new SearchResultItem();
 
 		searchItem.userName = cursor.getString(cursor.getColumnIndex(USERNAME_COLUMN));
+		searchItem.userScreenName = cursor.getString(cursor.getColumnIndex(USER_SCREEN_NAME_COLUMN));
 		searchItem.userProfileImageUrl = cursor.getString(cursor.getColumnIndex(PROFILE_IMAGE_URL_COLUMN));
 		searchItem.userStatusesCount = cursor.getInt(cursor.getColumnIndex(STATUSES_COUNT_COLUMN));
 		searchItem.userFollowersCount = cursor.getInt(cursor.getColumnIndex(FOLLOWERS_COUNT_COLUMN));
 		searchItem.userFriendsCount = cursor.getInt(cursor.getColumnIndex(FRIENDS_COUNT_COLUMN));
+		searchItem.tweetIdString = cursor.getString(cursor.getColumnIndex(TWEET_ID_STRING_COLUMN));
 		searchItem.tweetText = cursor.getString(cursor.getColumnIndex(TWEET_TEXT_COLUMN));
 		searchItem.tweetMediaUrl = cursor.getString(cursor.getColumnIndex(TWEET_MEDIA_URL_COLUMN));
 		searchItem.tweetMediaType = cursor.getString(cursor.getColumnIndex(TWEET_MEDIA_TYPE_COLUMN));
 		searchItem.tweetFavoriteCount = cursor.getInt(cursor.getColumnIndex(TWEET_FAVORITE_COUNT_COLUMN));
+		searchItem.entityUrl = cursor.getString(cursor.getColumnIndex(ENTITY_URL_COLUMN));
 
 		return searchItem;
 	}

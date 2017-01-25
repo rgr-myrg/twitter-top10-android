@@ -7,11 +7,14 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class TwitterUserData {
-	@SerializedName("id")
+	@SerializedName("id_str")
 	private String id;
 
 	@SerializedName("name")
 	private String name;
+
+	@SerializedName("screen_name")
+	private String screenName;
 
 	@SerializedName("location")
 	private String location;
@@ -40,6 +43,10 @@ public class TwitterUserData {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getScreenName() {
+		return screenName;
 	}
 
 	public String getLocation() {

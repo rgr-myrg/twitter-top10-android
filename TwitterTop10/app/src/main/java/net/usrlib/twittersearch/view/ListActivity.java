@@ -44,6 +44,12 @@ public class ListActivity extends AppCompatActivity {
 	@AfterViews
 	protected void setSupportActionBar() {
 		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+		// http://stackoverflow.com/questions/26440279/show-icon-in-actionbar-toolbar-with-appcompat-v7-21
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// getSupportActionBar().setHomeAsUpIndicator( getResources().getDrawable(R.drawable.home) );
 	}
 
 	@OptionsItem(R.id.action_settings)
@@ -88,6 +94,7 @@ public class ListActivity extends AppCompatActivity {
 		intent.putExtra(SearchTermItem.DESCRIPTION_COLUMN, searchTerm);
 
 		startActivity(intent);
+		finish();
 	}
 
 	@UiThread

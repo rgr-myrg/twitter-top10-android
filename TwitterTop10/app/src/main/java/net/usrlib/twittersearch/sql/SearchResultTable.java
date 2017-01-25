@@ -22,6 +22,9 @@ public class SearchResultTable {
 					+ "%s TEXT,"
 					+ "%s TEXT,"
 					+ "%s TEXT,"
+					+ "%s TEXT,"
+					+ "%s TEXT,"
+					+ "%s TEXT,"
 					+ "%s INTEGER,"
 					+ "%s INTEGER,"
 					+ "%s INTEGER,"
@@ -34,8 +37,11 @@ public class SearchResultTable {
 			SearchTermItem.ITEM_ID_COLUMN,
 			SearchResultItem.USER_ID_COLUMN,
 			SearchResultItem.USERNAME_COLUMN,
+			SearchResultItem.USER_SCREEN_NAME_COLUMN,
 			SearchResultItem.PROFILE_IMAGE_URL_COLUMN,
 			SearchResultItem.PROFILE_BACKGROUND_COLOR_COLUMN,
+			SearchResultItem.ENTITY_URL_COLUMN,
+			SearchResultItem.TWEET_ID_STRING_COLUMN,
 			SearchResultItem.TWEET_TEXT_COLUMN,
 			SearchResultItem.TWEET_MEDIA_URL_COLUMN,
 			SearchResultItem.TWEET_MEDIA_TYPE_COLUMN,
@@ -52,7 +58,7 @@ public class SearchResultTable {
 	public static final String SELECT_ALL = String.format("SELECT * FROM %s", TABLE_NAME);
 
 	public static final String SELECT_ALL_WITH_ITEM_ID = String.format(
-			"%s WHERE %s = ? ORDER BY %s DESC LIMIT 10",
+			"%s WHERE %s = ? ORDER BY %s DESC LIMIT ?",
 			SELECT_ALL, SearchTermItem.ITEM_ID_COLUMN, TIMESTAMP
 	);
 }

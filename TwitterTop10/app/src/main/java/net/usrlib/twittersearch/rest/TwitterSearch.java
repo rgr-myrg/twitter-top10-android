@@ -32,6 +32,8 @@ public class TwitterSearch {
 	private String mApiAuthString;
 	private String mSearchText;
 	private String mSearchType = TwitterSearchResponse.SEARCH_TYPE_RECENT;
+	private int mSearchCount = TwitterSearchResponse.SEARCH_COUNT_LOW;
+
 	private TwitterAuthResponse mTwitterAuthResponse;
 
 	// Callbacks
@@ -69,6 +71,11 @@ public class TwitterSearch {
 
 	public TwitterSearch searchType(final String searchType) {
 		mSearchType = searchType;
+		return this;
+	}
+
+	public TwitterSearch searchCount(final int searchCount) {
+		mSearchCount = searchCount;
 		return this;
 	}
 
@@ -119,7 +126,8 @@ public class TwitterSearch {
 		final Call<TwitterSearchResponse> searchCall = mRetrofitApi.requestTextSearch(
 				String.format("Bearer %s", mTwitterAuthResponse.getAccessToken()),
 				mSearchText,
-				mSearchType
+				mSearchType,
+				mSearchCount
 		);
 
 		searchCall.enqueue(new Callback<TwitterSearchResponse>() {

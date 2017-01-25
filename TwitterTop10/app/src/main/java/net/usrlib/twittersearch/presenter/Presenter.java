@@ -85,6 +85,7 @@ public class Presenter {
 				})
 				.searchWithHashTag(searchTerm)
 				.searchType(Preferences.getSearchType(context))
+				.searchCount(Preferences.getSearchCount(context))
 				.post();
 	}
 
@@ -137,11 +138,13 @@ public class Presenter {
 	}
 
 	public static final Cursor getResultItemsFromDb(final Context context, final int itemId) {
+		final int searchCount = Preferences.getSearchCount(context);
 		return DbHelper
 				.getInstance(context)
 				.getDbCursorWithSql(
 						SearchResultTable.SELECT_ALL_WITH_ITEM_ID
 								.replaceFirst("\\?", String.valueOf(itemId))
+								.replaceFirst("\\?", String.valueOf(searchCount))
 				);
 	}
 
