@@ -18,8 +18,7 @@ import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.model.SearchResultItem;
 import net.usrlib.twittersearch.model.TwitterSearchResponse;
 
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.ViewById;
+import java.util.Locale;
 
 /**
  * Created by rgr-myrg on 1/22/17.
@@ -67,35 +66,11 @@ public class DetailAdapter extends RecyclerView.Adapter {
 
 	public SearchResultItem getItem(final int position) {
 		mCursor.moveToPosition(position);
-
 		return SearchResultItem.fromDbCursor(mCursor);
 	}
 
-	public void changeCursor(Cursor cursor) {
-		Cursor swappedCursor = swapCursor(cursor);
-
-		if (swappedCursor != null) {
-			swappedCursor.close();
-		}
-	}
-
-	public Cursor swapCursor(Cursor cursor) {
-		if (mCursor == cursor) {
-			return null;
-		}
-
-		final Cursor previousCursor = mCursor;
-
-		mCursor = cursor;
-
-		if (cursor != null) {
-			this.notifyDataSetChanged();
-		}
-
-		return previousCursor;
-	}
-
 	public class ViewHolder extends RecyclerView.ViewHolder {
+		public CardView cardView;
 		public ImageView profileImage;
 		public ImageView tweetImage;
 		public TextView userName;
@@ -106,6 +81,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
 		public ViewHolder(View view) {
 			super(view);
 
+			cardView = (CardView) view.findViewById(R.id.detail_card_view);
 			profileImage = (ImageView) view.findViewById(R.id.user_profile_image);
 			tweetImage = (ImageView) view.findViewById(R.id.tweet_image);
 			userName = (TextView) view.findViewById(R.id.user_name);
@@ -117,25 +93,30 @@ public class DetailAdapter extends RecyclerView.Adapter {
 		public void bindData(final SearchResultItem data) {
 			Glide.with(mContext).load(data.getUserProfileImageUrl()).centerCrop().into(profileImage);
 
-			userName.setText(data.getUserName());
+			String userInfo = String.format(Locale.getDefault(), "%s @%s",
+					data.getUserName(),
+					data.getUserScreenName()
+			);
+
+			userName.setText(userInfo);
 			tweetText.setText(data.getTweetText());
 
 			String tweetUrl = TwitterSearchResponse.TWITTER_STATUSES_URL
 					.replaceFirst("\\?", data.getUserScreenName())
 					.replaceFirst("\\?", data.getTweetIdString());
 
-			tweetText.setOnClickListener(view -> {
+			cardView.setOnClickListener(view -> {
 				mOnItemClick.run(tweetUrl);
 			});
 
 			tweetStats.setText(
-					String.format("%s %d",
+					String.format(Locale.getDefault(), "%s %d",
 							mContext.getString(R.string.heart),
 							data.getTweetFavoriteCount())
 			);
 
 			followers.setText(
-					String.format("%s %d",
+					String.format(Locale.getDefault(), "%s %d",
 							mContext.getString(R.string.followers_label),
 							data.getUserFollowersCount())
 			);

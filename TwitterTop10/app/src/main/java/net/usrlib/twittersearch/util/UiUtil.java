@@ -63,7 +63,7 @@ public class UiUtil {
 				.show();
 	}
 
-	public static void makeSnackbar(final View view, final String message) {
+	public static final void makeSnackbar(final View view, final String message) {
 		Snackbar.make(view, message, Snackbar.LENGTH_LONG)
 				.setAction("Action", null).show();
 	}

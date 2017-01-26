@@ -11,8 +11,13 @@
 	<string name="detail_list_empty">No Results found. Please start another search.</string>
 	<string name="hash">#</string>
 	<string name="heart">\u2665</string>
-	<string name="followers_label">Followers\n</string>
-	<string name="search_results_error">Oops! Wacky hijinks ensued. Please try again later.</string>
+
+	<string name="tweets_label">Tweets </string>
+	<string name="following_label">Following </string>
+    <string name="followers_label">Followers </string>
+    <string name="likes_label">Likes </string>
+
+    <string name="search_results_error">Oops! Wacky hijinks ensued. Please try again later.</string>
 	<string name="search_no_results">No results match your query.</string>
 	<string name="refresh_message">Updating feed with</string>
 	<string name="schedule_message">Next feed update in</string>

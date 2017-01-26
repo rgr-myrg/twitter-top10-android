@@ -6,12 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
 
 import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.model.SearchTermItem;
 import net.usrlib.twittersearch.presenter.Presenter;
+import net.usrlib.twittersearch.touch.OnStartDragListener;
+import net.usrlib.twittersearch.touch.SimpleItemTouchHelperCallback;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -23,7 +26,7 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.list_fragment_main)
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements OnStartDragListener {
 	public static final String TAG = ListFragment.class.getSimpleName();
 
 	@ViewById(R.id.list_recycler_view)
@@ -33,6 +36,7 @@ public class ListFragment extends Fragment {
 	protected TextView mEmptyListMessage;
 
 	protected ListAdapter mRecyclerAdapter = null;
+	protected ItemTouchHelper mItemTouchHelper = null;
 
 	@AfterViews
 	protected void onAfterViews() {
@@ -50,13 +54,20 @@ public class ListFragment extends Fragment {
 	}
 
 	private void initRecyclerViewAndAdapter(final Cursor cursor) {
-		mRecyclerAdapter = new ListAdapter(getContext(), cursor, position -> {
-			startDetailActivity(position);
-		});
+		mRecyclerAdapter = new ListAdapter(
+				getContext(),
+				cursor,
+				position -> startDetailActivity(position),
+				this
+		);
 
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerView.setAdapter(mRecyclerAdapter);
+
+		ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecyclerAdapter);
+		mItemTouchHelper = new ItemTouchHelper(callback);
+		mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 	}
 
 	private void startDetailActivity(int position) {
@@ -67,5 +78,10 @@ public class ListFragment extends Fragment {
 		intent.putExtra(SearchTermItem.DESCRIPTION_COLUMN, item.getDescription());
 
 		getContext().startActivity(intent);
+	}
+
+	@Override
+	public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+		mItemTouchHelper.startDrag(viewHolder);
 	}
 }
