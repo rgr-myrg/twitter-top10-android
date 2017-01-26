@@ -148,6 +148,26 @@ public class Presenter {
 				);
 	}
 
+	public static final Cursor deleteSearchItemFromDb(final Context context, final int itemId) {
+		final DbHelper dbHelper = DbHelper.getInstance(context);
+		final String[] stringId = new String[] {String.valueOf(itemId)};
+		final int rows = dbHelper.delete(
+				SearchTermTable.TABLE_NAME,
+				SearchTermTable.WHERE_ITEM_ID,
+				stringId
+		);
+
+		if (rows > 0) {
+			dbHelper.delete(
+					SearchResultTable.TABLE_NAME,
+					SearchResultTable.WHERE_ITEM_ID,
+					stringId
+			);
+		}
+
+		return getSearchItemsFromDb(context);
+	}
+
 	public interface OnNewSearchReady {
 		void run(SearchResult response);
 	}

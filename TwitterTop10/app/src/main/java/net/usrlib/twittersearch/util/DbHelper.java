@@ -83,25 +83,25 @@ public class DbHelper extends SQLiteOpenHelper {
 		return numOfRows;
 	}
 
-//	public int delete(
-//			@NonNull final String tableName,
-//			@NonNull final String where,
-//			@NonNull final String[] whereArgs) {
-//
-//		final SQLiteDatabase db = getWritableDatabase();
-//		int numOfRows = -1;
-//
-//		db.beginTransaction();
-//
-//		try {
-//			numOfRows = db.delete(tableName, where, whereArgs);
-//			db.setTransactionSuccessful();
-//		} finally {
-//			db.endTransaction();
-//		}
-//
-//		return numOfRows;
-//	}
+	public int delete(
+			@NonNull final String tableName,
+			@NonNull final String where,
+			@NonNull final String[] whereArgs) {
+
+		final SQLiteDatabase db = getWritableDatabase();
+		int numOfRows = NO_ID;
+
+		db.beginTransaction();
+
+		try {
+			numOfRows = db.delete(tableName, where, whereArgs);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+		}
+
+		return numOfRows;
+	}
 
 	public Cursor getDbCursorWithSql(final String sql) {
 		if (BuildConfig.DEBUG) Log.i(TAG, sql);

@@ -3,6 +3,8 @@ package net.usrlib.twittersearch.sql;
 import net.usrlib.twittersearch.model.SearchResultItem;
 import net.usrlib.twittersearch.model.SearchTermItem;
 
+import java.util.Locale;
+
 /**
  * Created by rgr-myrg on 1/21/17.
  */
@@ -12,6 +14,7 @@ public class SearchResultTable {
 	public static final String TIMESTAMP = "timestamp";
 
 	public static final String CREATE_TABLE = String.format(
+			Locale.getDefault(),
 			"CREATE TABLE IF NOT EXISTS %s ("
 					+ "%s INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "%s INTEGER,"
@@ -53,12 +56,27 @@ public class SearchResultTable {
 			TIMESTAMP
 	);
 
-	public static final String DROP_TABLE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+	public static final String DROP_TABLE = String.format("" +
+			"Locale.getDefault()," +
+			"DROP TABLE IF EXISTS %s",
+			TABLE_NAME
+	);
 
-	public static final String SELECT_ALL = String.format("SELECT * FROM %s", TABLE_NAME);
+	public static final String SELECT_ALL = String.format(
+			Locale.getDefault(),
+			"SELECT * FROM %s",
+			TABLE_NAME
+	);
 
 	public static final String SELECT_ALL_WITH_ITEM_ID = String.format(
+			Locale.getDefault(),
 			"%s WHERE %s = ? ORDER BY %s DESC LIMIT ?",
 			SELECT_ALL, SearchTermItem.ITEM_ID_COLUMN, TIMESTAMP
+	);
+
+	public static final String WHERE_ITEM_ID = String.format(
+			Locale.getDefault(),
+			"%s = ?",
+			SearchTermItem.ITEM_ID_COLUMN
 	);
 }

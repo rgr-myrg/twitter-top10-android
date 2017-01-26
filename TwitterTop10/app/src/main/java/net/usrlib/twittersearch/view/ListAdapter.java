@@ -19,6 +19,7 @@ import net.usrlib.material.MaterialTheme;
 import net.usrlib.material.Theme;
 import net.usrlib.twittersearch.R;
 import net.usrlib.twittersearch.model.SearchTermItem;
+import net.usrlib.twittersearch.presenter.Presenter;
 import net.usrlib.twittersearch.touch.ItemTouchHelperAdapter;
 import net.usrlib.twittersearch.touch.ItemTouchHelperViewHolder;
 import net.usrlib.twittersearch.touch.OnStartDragListener;
@@ -94,10 +95,26 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 	 */
 	@Override
 	public void onItemDismiss(int position) {
-		Log.i("ADAPTER", "onItemDismiss" + position);
-		// TODO: Figure out how to delete item from cursor.
-		// Maybe change to use array instead of cursor. Meep.
-		notifyItemRemoved(position);
+		final Cursor cursorUpdate = Presenter.deleteSearchItemFromDb(
+				mContext,
+				getItem(position).getItemId()
+		);
+
+		if (cursorUpdate == mCursor) {
+			return;
+		}
+
+		final Cursor previousCursor = mCursor;
+
+		mCursor = cursorUpdate;
+
+		if (mCursor != null) {
+			notifyItemRemoved(position);
+		}
+
+		if (previousCursor != null) {
+			previousCursor.close();
+		}
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
