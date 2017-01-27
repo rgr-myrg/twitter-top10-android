@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import net.usrlib.twittersearch.BuildConfig;
 import net.usrlib.twittersearch.model.SearchResultItem;
 import net.usrlib.twittersearch.model.SearchTermItem;
 import net.usrlib.twittersearch.model.TwitterStatusData;
@@ -11,6 +12,7 @@ import net.usrlib.twittersearch.rest.TwitterSearch;
 import net.usrlib.twittersearch.sql.SearchResultTable;
 import net.usrlib.twittersearch.sql.SearchTermTable;
 import net.usrlib.twittersearch.util.DbHelper;
+import net.usrlib.twittersearch.util.Debug;
 import net.usrlib.twittersearch.util.Preferences;
 
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
  */
 
 public class Presenter {
+	public static final String TAG = Presenter.class.getSimpleName();
+
 	public static final int AUTH_RESPONSE_ERROR = 100;
 	public static final int EMPTY_SEARCH_TERM = 101;
 	public static final int NO_RESULTS_FOUND = 102;
@@ -55,7 +59,7 @@ public class Presenter {
 						return;
 					}
 
-					final int newRowId = addSearchItemToDb(context, itemId, searchTerm);
+					final int newRowId = addSearchTermToDb(context, itemId, searchTerm);
 
 					if (newRowId == DbHelper.NO_ID) {
 						callback.run(new SearchResult(SearchResult.EXCEPTION, SEARCH_NOT_ADDED));
@@ -89,7 +93,7 @@ public class Presenter {
 				.post();
 	}
 
-	public static final int addSearchItemToDb(
+	public static final int addSearchTermToDb(
 			final Context context,
 			final int itemId,
 			final String description) {
@@ -112,6 +116,21 @@ public class Presenter {
 				SearchTermTable.TABLE_NAME,
 				contentValues
 		);
+
+		// Always set the position to the new row id.
+		// This allows for updating the position
+		// when the user changes the order on the UI.
+		if (rowId > 0) {
+			final ContentValues values = new ContentValues();
+			values.put(SearchTermItem.POSITION_COLUMN, rowId);
+
+			DbHelper.getInstance(context).update(
+					SearchTermTable.TABLE_NAME,
+					values,
+					SearchTermTable.WHERE_ITEM_ID,
+					new String[]{String.valueOf(rowId)}
+			);
+		}
 
 		return rowId;
 	}
@@ -150,7 +169,7 @@ public class Presenter {
 
 	public static final Cursor deleteSearchItemFromDb(final Context context, final int itemId) {
 		final DbHelper dbHelper = DbHelper.getInstance(context);
-		final String[] stringId = new String[] {String.valueOf(itemId)};
+		final String[] stringId = new String[]{String.valueOf(itemId)};
 		final int rows = dbHelper.delete(
 				SearchTermTable.TABLE_NAME,
 				SearchTermTable.WHERE_ITEM_ID,
@@ -166,6 +185,39 @@ public class Presenter {
 		}
 
 		return getSearchItemsFromDb(context);
+	}
+
+	public static final Cursor swapSearchItemsInDb(
+			final Context context,
+			final int intemId,
+			final int targetId) {
+		// TODO: Items in between must also be reordered.
+		// Set target to temp value
+		swapItemIds(context, targetId, DbHelper.NO_ID);
+
+		// Direction from -> to
+		swapItemIds(context, intemId, targetId);
+
+		// Direction temp value -> from
+		swapItemIds(context, DbHelper.NO_ID, intemId);
+
+		return getSearchItemsFromDb(context);
+	}
+
+	public static final int swapItemIds(final Context context, final int itemId, final int targetId) {
+		final ContentValues values = new ContentValues();
+		values.put(SearchTermItem.POSITION_COLUMN, targetId);
+
+		if (BuildConfig.DEBUG) {
+			Debug.i(TAG, "swapItemIds: " + itemId + "->" + targetId);
+		}
+
+		return DbHelper.getInstance(context).update(
+				SearchTermTable.TABLE_NAME,
+				values,
+				SearchTermTable.WHERE_ITEM_ID,
+				new String[]{String.valueOf(itemId)}
+		);
 	}
 
 	public interface OnNewSearchReady {

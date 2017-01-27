@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			@NonNull final String[] whereArgs) {
 
 		final SQLiteDatabase db = getWritableDatabase();
-		int numOfRows = -1;
+		int numOfRows = NO_ID;
 
 		db.beginTransaction();
 
@@ -104,7 +104,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 
 	public Cursor getDbCursorWithSql(final String sql) {
-		if (BuildConfig.DEBUG) Log.i(TAG, sql);
+		if (BuildConfig.DEBUG) Debug.i(TAG, sql);
+
 		final SQLiteDatabase db = getWritableDatabase();
 
 		if (db == null) {

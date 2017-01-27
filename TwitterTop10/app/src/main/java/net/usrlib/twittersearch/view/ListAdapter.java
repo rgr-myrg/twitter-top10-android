@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,18 +24,27 @@ import net.usrlib.twittersearch.presenter.Presenter;
 import net.usrlib.twittersearch.touch.ItemTouchHelperAdapter;
 import net.usrlib.twittersearch.touch.ItemTouchHelperViewHolder;
 import net.usrlib.twittersearch.touch.OnStartDragListener;
+import net.usrlib.twittersearch.util.Debug;
 
 /**
  * Created by rgr-myrg on 1/22/17.
  */
 
 public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
+	public static final String TAG = ListAdapter.class.getSimpleName();
+
 	protected final MaterialTheme mMaterialTheme = MaterialTheme.get(Theme.TOPAZ);
 	protected LayoutInflater mInflater = null;
 	protected Context mContext = null;
 	protected Cursor mCursor = null;
 	protected OnItemClick mOnItemClick = null;
 	protected OnStartDragListener mDragStartListener = null;
+
+	protected boolean mItemIsMoving = false;
+
+	protected int mItemStartPosition = -1;
+	protected int mItemTargetPosition = -1;
+
 
 	public ListAdapter(
 			final Context context,
@@ -50,7 +60,7 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		return new ViewHolder(
+		ViewHolder viewHolder = new ViewHolder(
 				mInflater.inflate(
 						//R.layout.list_card_view,
 						R.layout.list_item_data,
@@ -58,6 +68,25 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 						false
 				)
 		);
+
+//		viewHolder.itemView.setOnTouchListener((view, motionEvent) -> {
+//			Debug.i(TAG, "onTouchListener event: " + motionEvent);
+//			switch (motionEvent.getAction()) {
+//				case DragEvent.ACTION_DRAG_ENDED:
+//					Debug.i(TAG, "onTouchListener ACTION_DRAG_ENDED");
+//					break;
+//				case DragEvent.ACTION_DROP:
+//					Debug.i(TAG, "onTouchListener ACTION_DROP");
+//					break;
+//				case DragEvent.ACTION_DRAG_EXITED:
+//					Debug.i(TAG, "onTouchListener ACTION_DRAG_EXITED");
+//					break;
+//			}
+//
+//			return false;
+//		});
+
+		return viewHolder;
 	}
 
 	@Override
@@ -77,7 +106,6 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 
 	public SearchTermItem getItem(final int position) {
 		mCursor.moveToPosition(position);
-
 		return SearchTermItem.fromDbCursor(mCursor);
 	}
 
@@ -86,8 +114,45 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 	 */
 	@Override
 	public boolean onItemMove(int fromPosition, int toPosition) {
-		Log.i("ADAPTER", "onItemMove" + fromPosition + "->" + toPosition);
+		mItemIsMoving = true;
+		mItemStartPosition = getItem(fromPosition).getItemId();
+		mItemTargetPosition = getItem(toPosition).getItemId();
+
+		notifyItemMoved(fromPosition, toPosition);
+
 		return false;
+	}
+
+	@Override
+	public void onItemStateIdle() {
+		Debug.i(TAG, "onItemStateIdle"  + mItemStartPosition + "->" + mItemTargetPosition);
+
+		if (!mItemIsMoving) {
+			return;
+		}
+
+		mItemIsMoving = false;
+
+		final Cursor cursorUpdate = Presenter.swapSearchItemsInDb(
+				mContext, mItemStartPosition, mItemTargetPosition
+		);
+
+		if (cursorUpdate == mCursor) {
+			return;
+		}
+
+		final Cursor previousCursor = mCursor;
+
+		mCursor = cursorUpdate;
+
+		if (mCursor != null) {
+			Debug.i(TAG, "notifyDataSetChanged");
+			notifyDataSetChanged();
+		}
+
+		if (previousCursor != null) {
+			previousCursor.close();
+		}
 	}
 
 	/*
@@ -150,9 +215,11 @@ public class ListAdapter extends RecyclerView.Adapter implements ItemTouchHelper
 			);
 
 			itemDragHandle.setOnTouchListener((view, event) -> {
-				if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-					mDragStartListener.onStartDrag(this);
-				}
+				Debug.i(TAG, "dragHandle onTouch event: " + event.getAction());
+				// TODO: Comment out until sorting issue in DB is fixed.
+//				if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+//					mDragStartListener.onStartDrag(this);
+//				}
 				return false;
 			});
 		}

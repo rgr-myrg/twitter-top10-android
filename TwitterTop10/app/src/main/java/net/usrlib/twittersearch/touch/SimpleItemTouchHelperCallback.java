@@ -21,6 +21,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import net.usrlib.twittersearch.BuildConfig;
+import net.usrlib.twittersearch.util.Debug;
+
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
  * swipe-to-dismiss. Drag events are automatically started by an item long-press.<br/>
@@ -32,7 +35,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
  * @author Paul Burke (ipaulpro)
  */
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
-
 	public static final float ALPHA_FULL = 1.0f;
 
 	private final ItemTouchHelperAdapter mAdapter;
@@ -70,7 +72,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 		if (source.getItemViewType() != target.getItemViewType()) {
 			return false;
 		}
-
 		// Notify the adapter of the move
 		mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
 		return true;
@@ -96,14 +97,24 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
 	@Override
 	public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-		// We only want the active item to change
-		if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-			if (viewHolder instanceof ItemTouchHelperViewHolder) {
-				// Let the view holder know that this item is being moved or dragged
-				ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
-				itemViewHolder.onItemSelected();
-			}
+		if (BuildConfig.DEBUG) {
+			Debug.i("TOUCH HELPER", "actionState: " + actionState);
 		}
+
+		if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+			mAdapter.onItemStateIdle();
+		} else {
+			ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+			itemViewHolder.onItemSelected();
+		}
+		// We only want the active item to change
+//		if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+//			if (viewHolder instanceof ItemTouchHelperViewHolder) {
+//				// Let the view holder know that this item is being moved or dragged
+//				ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+//				itemViewHolder.onItemSelected();
+//			}
+//		}
 
 		super.onSelectedChanged(viewHolder, actionState);
 	}

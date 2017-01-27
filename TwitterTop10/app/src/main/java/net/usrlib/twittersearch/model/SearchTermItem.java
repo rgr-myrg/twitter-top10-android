@@ -9,12 +9,18 @@ import android.database.Cursor;
 public class SearchTermItem {
 	public static final String ITEM_ID_COLUMN = "itemId";
 	public static final String DESCRIPTION_COLUMN = "description";
+	public static final String POSITION_COLUMN = "position";
 
 	private int itemId;
+	private int position;
 	private String description;
 
 	public int getItemId() {
 		return itemId;
+	}
+
+	public int getPosition() {
+		return position;
 	}
 
 	public String getDescription() {
@@ -37,6 +43,7 @@ public class SearchTermItem {
 		final SearchTermItem searchItem = new SearchTermItem();
 
 		searchItem.itemId = cursor.getInt(cursor.getColumnIndex(ITEM_ID_COLUMN));
+		searchItem.position = cursor.getInt(cursor.getColumnIndex(POSITION_COLUMN));
 		searchItem.description = cursor.getString(cursor.getColumnIndex(DESCRIPTION_COLUMN));
 
 		return searchItem;

@@ -83,13 +83,13 @@ public class DetailFragment extends Fragment {
 	@Override
 	public void onStop() {
 		super.onStop();
-		//stopScheduledTask();
+		//shutdownScheduledTask();
 	}
 
 //	@Override
 //	public void onPause() {
 //		super.onPause();
-//		stopScheduledTask();
+//		shutdownScheduledTask();
 //	}
 
 	@Override
@@ -103,6 +103,13 @@ public class DetailFragment extends Fragment {
 //		super.onResume();
 //		scheduleService();
 //	}
+
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		shutdownScheduledTask();
+	}
 
 	protected void fetchDataFromDb() {
 		if (BuildConfig.DEBUG) {
@@ -134,15 +141,19 @@ public class DetailFragment extends Fragment {
 		);
 	}
 
-	protected void stopScheduledTask() {
-		if (mScheduledFuture == null) {
+	protected void shutdownScheduledTask() {
+		if (BuildConfig.DEBUG) {
+			Log.i(TAG, "Shutting down scheduler");
+		}
+
+		if (mScheduledFuture == null || mScheduler == null) {
 			return;
 		}
 
-		if (!mScheduledFuture.isDone()) {
+		//if (!mScheduledFuture.isDone()) {
 			mScheduler.shutdownNow();
 			//mScheduler.shutdown();
-		}
+		//}
 	}
 
 	protected void scheduleService() {

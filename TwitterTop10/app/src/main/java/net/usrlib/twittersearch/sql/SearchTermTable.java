@@ -16,11 +16,13 @@ public class SearchTermTable {
 			Locale.getDefault(),
 			"CREATE TABLE IF NOT EXISTS %s ("
 					+ "%s INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "%s INTEGER,"
 					+ "%s TEXT NOT NULL,"
 					+ "%s DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL"
 					+ ")",
 			TABLE_NAME,
 			SearchTermItem.ITEM_ID_COLUMN,
+			SearchTermItem.POSITION_COLUMN,
 			SearchTermItem.DESCRIPTION_COLUMN,
 			TIMESTAMP
 	);
@@ -34,7 +36,7 @@ public class SearchTermTable {
 	public static final String SELECT_ALL = String.format(
 			Locale.getDefault(),
 			"SELECT * FROM %s ORDER BY %s DESC",
-			TABLE_NAME, SearchTermItem.ITEM_ID_COLUMN
+			TABLE_NAME, SearchTermItem.POSITION_COLUMN
 	);
 
 	public static final String WHERE_ITEM_ID = String.format(
